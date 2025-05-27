@@ -46,8 +46,7 @@ export const clientRegisterValidator = [
     .withMessage('Статус должен быть от 5 до 350 символов'),
 
   body('phoneNumber')
-    .notEmpty()
-    .withMessage('Телефон обязателен')
+    .optional()
     .matches(/^(\+\d{1,3}[- ]?)?\d{10}$/)
     .withMessage('Неверный формат телефона'),
 
