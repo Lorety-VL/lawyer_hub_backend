@@ -1,6 +1,6 @@
 import { Op } from "sequelize";
 import ApiError from "../exceptions/apiError.js";
-import { User, LawyerProfile } from "../models/index.js";
+import { User, LawyerProfile, Specialization } from "../models/index.js";
 
 
 class LawyerService {
@@ -88,6 +88,8 @@ class LawyerService {
       subQuery: false,
     });
   }
+
+  
 }
 
 export default new LawyerService();

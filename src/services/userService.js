@@ -1,5 +1,5 @@
 import ApiError from "../exceptions/apiError.js";
-import { User, LawyerProfile } from "../models/index.js";
+import { User, LawyerProfile, Specialization } from "../models/index.js";
 
 
 class UserService {
@@ -22,6 +22,36 @@ class UserService {
     }
 
     return user;
+  }
+  async getById(id) {
+    return await User.findOne({
+      where: {
+        id,
+        isBlocked: false,
+      },
+      attributes: {
+        exclude: [
+          'password',
+          'activationLink',
+          'createdAt',
+          'updatedAt',
+          'phoneNumber',
+          'isActivated',
+          'email',
+        ]
+      },
+      include: [{
+        model: LawyerProfile,
+        attributes: {
+          exclude: ['createdAt', 'updatedAt', 'licenseNumber']
+        },
+        include: [{
+          model: Specialization,
+          through: { attributes: [] },
+          attributes: ['id', 'name']
+        }]
+      }]
+    });
   }
 }
 

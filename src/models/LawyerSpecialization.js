@@ -1,5 +1,5 @@
 export default (sequelize, DataTypes) => {
-  return sequelize.define('LawyerCategory', {
+  return sequelize.define('LawyerSpecialization', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,

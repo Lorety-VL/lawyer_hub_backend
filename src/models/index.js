@@ -4,8 +4,8 @@ import config from '../config/config.js';
 import TokenModel from './Token.js';
 import UserModel from './User.js';
 import LawyerModel from './LawyerProfile.js';
-import CategoryModel from './Category.js';
-import LawyerCategoryModel from './LawyerCategory.js';
+import SpecializationModel from './Specialization.js';
+import LawyerSpecializationModel from './LawyerSpecialization.js';
 
 
 const env = process.env.NODE_ENV || 'development';
@@ -20,8 +20,8 @@ const db = new Sequelize(
 const User = UserModel(db, DataTypes);
 const LawyerProfile = LawyerModel(db, DataTypes);
 const Token = TokenModel(db, DataTypes);
-const Category = CategoryModel(db, DataTypes);
-const LawyerCategory = LawyerCategoryModel(db, DataTypes);
+const Specialization = SpecializationModel(db, DataTypes);
+const LawyerSpecialization = LawyerSpecializationModel(db, DataTypes);
 
 Token.belongsTo(User, {
   foreignKey: 'userId'
@@ -37,16 +37,16 @@ User.hasOne(LawyerProfile, {
   foreignKey: 'userId',
 });
 
-LawyerProfile.belongsToMany(Category, {
-  through: LawyerCategory,
+LawyerProfile.belongsToMany(Specialization, {
+  through: LawyerSpecialization,
   foreignKey: 'lawyerProfileId',
 });
 
-Category.belongsToMany(LawyerProfile, {
-  through: LawyerCategory,
-  foreignKey: 'categoryId'
+Specialization.belongsToMany(LawyerProfile, {
+  through: LawyerSpecialization,
+  foreignKey: 'specializationId'
 });
 
-export { User, Token, LawyerProfile };
+export { User, Token, LawyerProfile, Specialization };
 
 export default db;

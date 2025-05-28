@@ -21,6 +21,21 @@ class UserController {
       next(e);
     }
   }
+
+  async getUser(req, res, next) {
+    try {
+      const { id } = req.params;
+      const lawyer = await userService.getById(id);
+
+      if (!lawyer) {
+        throw ApiError.NotFound('Юрист не найден');
+      }
+
+      res.json(lawyer);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default new UserController();
