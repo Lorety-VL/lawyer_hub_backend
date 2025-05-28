@@ -27,6 +27,15 @@ class LawyerService {
       model: LawyerProfile,
       required: true,
       where: {},
+      // where: { isConfirmed: true },
+      attributes: {
+        exclude: [
+          'createdAt',
+          'updatedAt',
+          'licenseNumber',
+          'isConfirmed'
+        ]
+      },
       include: []
     }];
 
@@ -35,7 +44,8 @@ class LawyerService {
         model: Specialization,
         where: { id: { [Op.in]: specializations } },
         through: { attributes: [] },
-        required: true
+        required: true,
+        attributes: ['id', 'name'],
       });
     }
 
@@ -57,12 +67,25 @@ class LawyerService {
     }
 
     return await User.findAndCountAll({
+      attributes: {
+        exclude: [
+          'password',
+          'activationLink',
+          'createdAt',
+          'updatedAt',
+          'phoneNumber',
+          'userStatus',
+          'email',
+          'isActivated',
+        ]
+      },
       where,
       include,
       order,
       limit,
       offset: (page - 1) * limit,
       distinct: true,
+      subQuery: false,
     });
   }
 }
