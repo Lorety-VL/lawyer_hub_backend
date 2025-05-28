@@ -46,6 +46,7 @@ class AuthController {
       ]);
       const lawyerData = _.pick(req.body, [
         'aboutMe',
+        'price',
         'education',
         'region',
         'licenseNumber',

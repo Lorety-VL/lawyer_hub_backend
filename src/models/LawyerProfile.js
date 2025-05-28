@@ -19,6 +19,9 @@ export default (sequelize, DataTypes) => sequelize.define('LawyerProfile', {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  price: {
+    type: DataTypes.INTEGER,
+  },
   licenseNumber: {
     type: DataTypes.TEXT,
     unique: true,

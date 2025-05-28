@@ -29,6 +29,11 @@ export const lawyerRegisterValidator = [
     .matches(/^[A-Za-z0-9\-]{6,20}$/)
     .withMessage('Номер лицензии должен содержать 6-20 символов (буквы, цифры, дефисы)'),
 
+  body('price')
+    .optional()
+    .isInt({ min: 500 })
+    .withMessage('Цена контакта должна быть числом не меньше 500'),
+
   body('experienceStartDate')
     .notEmpty()
     .withMessage('Дата начала опыта работы обязательна')

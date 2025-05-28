@@ -17,6 +17,7 @@ services:
       SMTP_PASSWORD: ${SMTP_PASSWORD}
       API_URL: ${API_URL}
       CLIENT_URL: ${CLIENT_URL}
+      MODE: ${MODE}
     ports:
       - "3000:3000"
     depends_on:

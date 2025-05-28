@@ -22,7 +22,9 @@ class AuthService {
       role: 'client',
       password: hashPassword,
     });
-    await mailService.sendActivationMail(userData.email, `${process.env.API_URL}/api/v1/auth/activate/${activationLink}`);
+    if (process.env.MODE === 'production') {
+      await mailService.sendActivationMail(userData.email, `${process.env.API_URL}/api/v1/auth/activate/${activationLink}`);
+    }
 
     const userDto = new UserDto(user);
     const tokens = tokenService.generateTokens({ ...userDto });
@@ -54,7 +56,9 @@ class AuthService {
         userId: user.id,
       }, { transaction })
 
-      await mailService.sendActivationMail(userData.email, `${process.env.API_URL}/api/v1/auth/activate/${activationLink}`);
+      if (process.env.MODE === 'production') {
+        await mailService.sendActivationMail(userData.email, `${process.env.API_URL}/api/v1/auth/activate/${activationLink}`);
+      }
       const userDto = new UserDto(user);
       const tokens = tokenService.generateTokens({ ...userDto });
       await tokenService.saveToken(userDto.id, tokens.refreshToken, { transaction });
