@@ -23,4 +23,8 @@ export default class ApiError extends Error {
   static NotFound(message = 'Resource not found') {
     return new ApiError(404, message);
   }
+
+  static Conflict(message = 'Resource already exists') {
+    return new ApiError(409, message);
+  }
 }

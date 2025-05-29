@@ -23,8 +23,9 @@ class UserService {
 
     return user;
   }
+
   async getById(id) {
-    return await User.findOne({
+    const user = User.findOne({
       where: {
         id,
         isBlocked: false,
@@ -52,6 +53,11 @@ class UserService {
         }]
       }]
     });
+
+    if (!user) {
+      throw ApiError.NotFound('User not found');
+    }
+    return user;
   }
 }
 

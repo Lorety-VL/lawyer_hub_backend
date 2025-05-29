@@ -11,7 +11,7 @@ class AuthService {
   async registerClient(userData) {
     const candidate = await User.findOne({ where: { email: userData.email } });
     if (candidate) {
-      throw ApiError.BadRequest(`Пользователь с почтовым адресом ${userData.email} уже существует`);
+      throw ApiError.Conflict(`Пользователь с почтовым адресом ${userData.email} уже существует`);
     }
     const hashPassword = await hash(userData.password, 3);
     const activationLink = v4();
@@ -35,8 +35,14 @@ class AuthService {
 
   async registerLawyer(userData, lawyerData) {
     const candidate = await User.findOne({ where: { email: userData.email } });
+    const lawyerCandidate = await LawyerProfile.findOne({
+      where: { licenseNumber: userData.licenseNumber }
+    });
     if (candidate) {
-      throw ApiError.BadRequest(`Пользователь с почтовым адресом ${userData.email} уже существует`);
+      throw ApiError.Conflict(`Пользователь с почтовым адресом ${userData.email} уже существует`);
+    }
+    if (lawyerCandidate) {
+      throw ApiError.Conflict(`Пользователь с таким номером лицензии уже существует`);
     }
     const hashPassword = await hash(userData.password, 3);
     const activationLink = v4();
