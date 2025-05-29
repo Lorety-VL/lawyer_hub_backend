@@ -10,6 +10,19 @@ class UserService {
       },
       include: [
         {
+          model: Review,
+          required: false,
+          as: 'authoredReviews',
+          include: [
+            {
+              model: User,
+              required: true,
+              as: 'lawyer',
+              attributes: ['id', 'firstName', 'lastName', 'patronymic', 'avatarPath'],
+            }
+          ]
+        },
+        {
           model: LawyerProfile,
           required: false,
           include: [
