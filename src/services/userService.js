@@ -50,7 +50,7 @@ class UserService {
     });
 
     if (!user) {
-      throw new Error('User not found');
+      throw ApiError.NotFound('User not found');
     }
 
     return user;
@@ -151,7 +151,7 @@ class UserService {
       throw ApiError.NotFound('User not found');
     }
     if (!avatarPath) {
-      throw new Error('Empty avatar path');
+      throw new ApiError.BadRequest('Empty avatar path');
     }
     user.avatarPath = avatarPath;
     await user.save();
