@@ -13,7 +13,7 @@ export default (sequelize, DataTypes) => sequelize.define('Review', {
     allowNull: false,
   },
   rating: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.FLOAT,
     allowNull: false,
     validate: {
       min: 1,

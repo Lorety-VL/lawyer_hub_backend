@@ -5,12 +5,12 @@ import { User, LawyerProfile, Review } from "../models/index.js";
 class ReviewService {
   async createReview(userId, lawyerId, reviewData) {
     const user = await User.findByPk(userId);
-    const lawyer = await LawyerProfile.findOne({ where: { userId: lawyerId } });
+    const lawyerProfile = await LawyerProfile.findOne({ where: { userId: lawyerId } });
 
     if (!user) {
       throw ApiError.NotFound();
     }
-    if (!lawyer) {
+    if (!lawyerProfile) {
       throw ApiError.NotFound();
     }
 
@@ -19,15 +19,16 @@ class ReviewService {
       clientId: userId,
       ...reviewData,
     });
-    lawyer.addReview(review)
+    await lawyerProfile.addReview(review);
+    const reviews = await lawyerProfile.getReviews();
+    const sum = reviews.reduce((acc, el) => acc + el.rating, 0);
+    const rating = sum / reviews.length;
+    lawyerProfile.rating = rating.toFixed(1);
+    console.log(rating.toFixed(1))
+    await lawyerProfile.save();
 
     return review;
   }
-
-  async getClientReviews(userId) {
-
-  }
-
 }
 
 export default new ReviewService();

@@ -22,6 +22,9 @@ export default (sequelize, DataTypes) => sequelize.define('LawyerProfile', {
   price: {
     type: DataTypes.INTEGER,
   },
+  rating: {
+    type: DataTypes.FLOAT,
+  },
   licenseNumber: {
     type: DataTypes.TEXT,
     unique: true,
@@ -33,7 +36,7 @@ export default (sequelize, DataTypes) => sequelize.define('LawyerProfile', {
     validate: {
       isDate: true,
       isBefore: new Date().toISOString(),
-    }
+    },
   },
   isConfirmed: {
     type: DataTypes.BOOLEAN,
