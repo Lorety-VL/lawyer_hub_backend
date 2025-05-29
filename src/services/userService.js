@@ -69,6 +69,9 @@ class UserService {
     if (user.role === 'lawyer') {
       const lawyerProfile = await LawyerProfile.findOne({ where: { userId } });
       lawyerProfile.update(lawyerValues);
+      if (lawyerValues.licenseNumber) {
+        lawyerProfile.isConfirmed = false;
+      }
       await lawyerProfile.save();
     }
     user.update();
@@ -82,6 +85,15 @@ class UserService {
         },
       ]
     })
+  }
+
+  async deleteUser(userId) {
+    const user = await User.findByPk(userId);
+    if (!user) {
+      throw ApiError.NotFound('User not found');
+    }
+    user.destroy({cascade: true});
+    return true;
   }
 
   async updateAvatar(userId, avatarPath) {

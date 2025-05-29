@@ -34,6 +34,7 @@ User.hasOne(Token, {
 
 LawyerProfile.belongsTo(User, {
   foreignKey: 'userId',
+  onDelete: 'CASCADE'
 });
 User.hasOne(LawyerProfile, {
   foreignKey: 'userId',
@@ -42,6 +43,7 @@ User.hasOne(LawyerProfile, {
 LawyerProfile.belongsToMany(Specialization, {
   through: LawyerSpecialization,
   foreignKey: 'lawyerProfileId',
+  onDelete: 'CASCADE'
 });
 
 Specialization.belongsToMany(LawyerProfile, {
@@ -49,7 +51,7 @@ Specialization.belongsToMany(LawyerProfile, {
   foreignKey: 'specializationId'
 });
 
-LawyerProfile.hasMany(File, { foreignKey: 'LawyerProfileId' });
+LawyerProfile.hasMany(File, { foreignKey: 'LawyerProfileId', onDelete: 'CASCADE' });
 File.belongsTo(LawyerProfile, { foreignKey: 'LawyerProfileId' });
 
 export { User, Token, LawyerProfile, Specialization, File };

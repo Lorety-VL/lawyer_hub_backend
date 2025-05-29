@@ -23,6 +23,11 @@ userRouter.patch('/me',
   userController.updateMe
 )
 
+userRouter.delete('/me',
+  authMiddleware,
+  userController.deleteMe
+)
+
 userRouter.get('/:id', [
   param('id')
     .isInt({ min: 1 })

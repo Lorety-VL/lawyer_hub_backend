@@ -51,6 +51,7 @@ class AuthController {
         'region',
         'licenseNumber',
         'experienceStartDate',
+        'specializations'
       ]);
       const user = await authService.registerLawyer(userData, lawyerData);
       res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });

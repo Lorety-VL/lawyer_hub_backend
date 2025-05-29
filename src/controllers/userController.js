@@ -64,6 +64,15 @@ class UserController {
     }
   }
 
+  async deleteMe(req, res, next) {
+    try {
+      await userService.deleteUser(req.user.id);
+      res.status(200).json({ success: true });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async setAvatar(req, res, next) {
     try {
       uploadAvatar(req, res, async (err) => {
