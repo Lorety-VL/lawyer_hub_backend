@@ -36,7 +36,7 @@ class AuthService {
   async registerLawyer(userData, lawyerData) {
     const candidate = await User.findOne({ where: { email: userData.email } });
     const lawyerCandidate = await LawyerProfile.findOne({
-      where: { licenseNumber: userData.licenseNumber }
+      where: { licenseNumber: lawyerData.licenseNumber }
     });
     if (candidate) {
       throw ApiError.Conflict(`Пользователь с почтовым адресом ${userData.email} уже существует`);
@@ -90,11 +90,11 @@ class AuthService {
   async login(email, password) {
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      throw ApiError.BadRequest('Пользователь с таким email не найден')
+      throw ApiError.BadRequest('Неверный пароль или логин');
     }
     const isPassEquals = await compare(password, user.password);
     if (!isPassEquals) {
-      throw ApiError.BadRequest('Неверный пароль');
+      throw ApiError.BadRequest('Неверный пароль или логин');
     }
     const userDto = new UserDto(user);
     const tokens = tokenService.generateTokens({ ...userDto });

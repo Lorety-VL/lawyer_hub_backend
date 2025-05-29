@@ -24,4 +24,9 @@ userRouter.get('/:id', [
     .withMessage('ID пользователя должен быть положительным числом')
     .toInt()
 ], userController.getUser);
+
+// userRouter.get('/me/avatar',
+//   authMiddleware,
+//   userController.setAvatar
+// )
 export default userRouter;
