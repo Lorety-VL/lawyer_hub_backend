@@ -1,6 +1,5 @@
 import express from 'express';
 import authController from '../controllers/authController.js';
-import authMiddleware from '../middlewares/authMiddleware.js';
 import { clientRegisterValidator } from '../validators/clientRegisterValidator.js';
 import { lawyerRegisterValidator } from '../validators/lawyerRegisterValidator.js';
 

@@ -1,5 +1,5 @@
 import ApiError from "../exceptions/apiError.js";
-import { User, LawyerProfile, Specialization } from "../models/index.js";
+import { User, LawyerProfile, Specialization, Review } from "../models/index.js";
 
 
 class UserService {
@@ -41,17 +41,26 @@ class UserService {
           'email',
         ]
       },
-      include: [{
-        model: LawyerProfile,
-        attributes: {
-          exclude: ['createdAt', 'updatedAt', 'licenseNumber']
-        },
-        include: [{
-          model: Specialization,
-          through: { attributes: [] },
-          attributes: ['id', 'name']
-        }]
-      }]
+      include: [
+        {
+          model: LawyerProfile,
+          attributes: {
+            exclude: ['createdAt', 'updatedAt', 'licenseNumber']
+          },
+          include: [
+            {
+              model: Specialization,
+              through: { attributes: [] },
+              attributes: ['id', 'name']
+            },
+            {
+              model: Review,
+              required: false,
+              as: 'reviews'
+            }
+          ]
+        }
+      ]
     });
 
     if (!user) {
@@ -92,7 +101,7 @@ class UserService {
     if (!user) {
       throw ApiError.NotFound('User not found');
     }
-    user.destroy({cascade: true});
+    user.destroy({ cascade: true });
     return true;
   }
 
