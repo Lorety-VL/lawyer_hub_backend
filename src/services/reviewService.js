@@ -24,6 +24,10 @@ class ReviewService {
     return review;
   }
 
+  async getClientReviews(userId) {
+
+  }
+
 }
 
 export default new ReviewService();

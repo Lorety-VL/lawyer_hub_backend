@@ -56,7 +56,15 @@ class UserService {
             {
               model: Review,
               required: false,
-              as: 'reviews'
+              as: 'reviews',
+              include: [
+                {
+                  model: User,
+                  required: true,
+                  as: 'client',
+                  attributes: ['id', 'firstName', 'lastName', 'patronymic', 'avatarPath'],
+                }
+              ]
             }
           ]
         }

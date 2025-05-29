@@ -6,6 +6,7 @@ import authRouter from './src/routers/authRouter.js';
 import userRouter from './src/routers/userRouter.js';
 import errorMiddleware from './src/middlewares/errorMiddleware.js';
 import lawyerRouter from './src/routers/lawyerRouter.js';
+// import chatRouter from './src/routers/chatRouter.js';
 
 
 const port = 3000;
@@ -18,6 +19,7 @@ app.use(cors());
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/lawyers', lawyerRouter);
+// app.use('/api/v1/chats', chatRouter);
 
 app.use(errorMiddleware);
 
