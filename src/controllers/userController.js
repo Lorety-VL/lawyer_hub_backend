@@ -2,6 +2,8 @@ import _ from 'lodash';
 import userService from '../services/userService.js';
 import { validationResult } from "express-validator";
 import ApiError from '../exceptions/apiError.js';
+import { uploadAvatar, uploadDocuments } from '../utils/uploadFile.js';
+
 
 class UserController {
   async getUsers(req, res, next) {
@@ -37,16 +39,48 @@ class UserController {
     }
   }
 
+  async updateMe(req, res, next) {
+    try {
+      const userData = _.pick(req.body, [
+        'firstName',
+        'lastName',
+        'phoneNumber',
+        'gender',
+        'birthDate',
+        'patronymic',
+      ]);
+      const lawyerData = _.pick(req.body, [
+        'aboutMe',
+        'price',
+        'education',
+        'region',
+        'licenseNumber',
+        'experienceStartDate',
+      ]);
+      const user = await userService.updateUser(req.user.id, userData, lawyerData);
+      res.status(202).json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async setAvatar(req, res, next) {
     try {
-      const { id } = req.params;
-      const lawyer = await userService.getById(id);
+      uploadAvatar(req, res, async (err) => {
+        if (err) return next(ApiError.BadRequest(err.message));
+        console.log(req.user)
+        console.log(req.file)
 
-      if (!lawyer) {
-        throw ApiError.NotFound('Юрист не найден');
-      }
-
-      res.json(lawyer);
+        try {
+          const avatarUrl = await userService.updateAvatar(
+            req.user.id,
+            req.file.path
+          );
+          res.status(201).json({ avatarUrl });
+        } catch (error) {
+          next(error);
+        }
+      });
     } catch (error) {
       next(error);
     }

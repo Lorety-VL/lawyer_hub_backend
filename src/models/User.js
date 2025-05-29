@@ -54,7 +54,7 @@ export default (sequelize, DataTypes) => sequelize.define('User', {
   phoneNumber: {
     type: DataTypes.TEXT,
   },
-  avatar_url: {
+  avatarPath: {
     type: DataTypes.TEXT,
   },
   role: {

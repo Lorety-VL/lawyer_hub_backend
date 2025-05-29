@@ -59,6 +59,42 @@ class UserService {
     }
     return user;
   }
+
+  async updateUser(userId, clientValues, lawyerValues) {
+    const user = await User.findByPk(userId);
+    if (!user) {
+      throw ApiError.NotFound('User not found');
+    }
+    user.update(clientValues);
+    if (user.role === 'lawyer') {
+      const lawyerProfile = await LawyerProfile.findOne({ where: { userId } });
+      lawyerProfile.update(lawyerValues);
+      await lawyerProfile.save();
+    }
+    user.update();
+    await user.save();
+    return await User.findByPk(userId, {
+      exclude: ['password'],
+      include: [
+        {
+          model: LawyerProfile, exclude: [],
+          include: [{ model: Specialization, exclude: [] }]
+        },
+      ]
+    })
+  }
+
+  async updateAvatar(userId, avatarPath) {
+    const user = await User.findByPk(userId);
+    if (!user) {
+      throw ApiError.NotFound('User not found');
+    }
+    if (!avatarPath) {
+      throw new Error('Empty avatar path');
+    }
+    user.avatarPath = avatarPath;
+    await user.save();
+  }
 }
 
 export default new UserService();

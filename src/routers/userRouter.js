@@ -18,6 +18,11 @@ userRouter.get('/me',
   userController.getMe
 )
 
+userRouter.patch('/me',
+  authMiddleware,
+  userController.updateMe
+)
+
 userRouter.get('/:id', [
   param('id')
     .isInt({ min: 1 })
@@ -25,8 +30,8 @@ userRouter.get('/:id', [
     .toInt()
 ], userController.getUser);
 
-// userRouter.get('/me/avatar',
-//   authMiddleware,
-//   userController.setAvatar
-// )
+userRouter.patch('/me/avatar',
+  authMiddleware,
+  userController.setAvatar
+)
 export default userRouter;

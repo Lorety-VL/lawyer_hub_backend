@@ -6,6 +6,7 @@ import UserModel from './User.js';
 import LawyerModel from './LawyerProfile.js';
 import SpecializationModel from './Specialization.js';
 import LawyerSpecializationModel from './LawyerSpecialization.js';
+import FileModel from './File.js';
 
 
 const env = process.env.NODE_ENV || 'development';
@@ -22,6 +23,7 @@ const LawyerProfile = LawyerModel(db, DataTypes);
 const Token = TokenModel(db, DataTypes);
 const Specialization = SpecializationModel(db, DataTypes);
 const LawyerSpecialization = LawyerSpecializationModel(db, DataTypes);
+const File = FileModel(db, DataTypes);
 
 Token.belongsTo(User, {
   foreignKey: 'userId'
@@ -47,6 +49,9 @@ Specialization.belongsToMany(LawyerProfile, {
   foreignKey: 'specializationId'
 });
 
-export { User, Token, LawyerProfile, Specialization };
+LawyerProfile.hasMany(File, { foreignKey: 'LawyerProfileId' });
+File.belongsTo(LawyerProfile, { foreignKey: 'LawyerProfileId' });
+
+export { User, Token, LawyerProfile, Specialization, File };
 
 export default db;
