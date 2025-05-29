@@ -36,18 +36,16 @@ class LawyerService {
           'isConfirmed'
         ]
       },
-      include: []
+      include: [
+        {
+          model: Specialization,
+          where: {},
+          through: { attributes: [] },
+          required: false,
+          attributes: ['id', 'name'],
+        }
+      ]
     }];
-
-    if (specializations && specializations.length) {
-      include[0].include.push({
-        model: Specialization,
-        where: { id: { [Op.in]: specializations } },
-        through: { attributes: [] },
-        required: true,
-        attributes: ['id', 'name'],
-      });
-    }
 
     if (otherFilters.priceFrom || otherFilters.priceTo) {
       include[0].where.price = {
@@ -89,7 +87,7 @@ class LawyerService {
     });
   }
 
-  
+
 }
 
 export default new LawyerService();

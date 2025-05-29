@@ -38,13 +38,6 @@ export const clientRegisterValidator = [
     .isLength({ min: 2 })
     .withMessage('Отчество слишком короткое'),
 
-  body('userStatus')
-    .optional()
-    .trim()
-    .escape()
-    .isLength({ min: 5, max: 350 })
-    .withMessage('Статус должен быть от 5 до 350 символов'),
-
   body('phoneNumber')
     .optional()
     .matches(/^(\+\d{1,3}[- ]?)?\d{10}$/)

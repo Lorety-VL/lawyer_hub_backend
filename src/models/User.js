@@ -28,9 +28,6 @@ export default (sequelize, DataTypes) => sequelize.define('User', {
       isBefore: new Date().toISOString(),
     }
   },
-  userStatus: {
-    type: DataTypes.TEXT,
-  },
   email: {
     type: DataTypes.STRING(320),
     unique: true,

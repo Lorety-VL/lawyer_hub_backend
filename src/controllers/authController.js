@@ -19,7 +19,6 @@ class AuthController {
         'gender',
         'birthDate',
         'patronymic',
-        'userStatus',
       ]);
       const user = await authService.registerClient(userData);
       res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
@@ -44,7 +43,6 @@ class AuthController {
         'gender',
         'birthDate',
         'patronymic',
-        'userStatus',
       ]);
       const lawyerData = _.pick(req.body, [
         'aboutMe',
