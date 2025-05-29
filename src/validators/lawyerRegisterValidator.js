@@ -30,6 +30,7 @@ export const lawyerRegisterValidator = [
     .withMessage('Номер лицензии должен содержать 6-20 символов (буквы, цифры, дефисы)'),
 
   body('specializations')
+    .optional()
     .isArray(),
 
   body('price')

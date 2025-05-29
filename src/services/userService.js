@@ -6,13 +6,32 @@ class UserService {
   async getMe(userId) {
     const user = await User.findByPk(userId, {
       attributes: {
-        exclude: ['password', 'activationLink', 'createdAt', 'updatedAt']
+        exclude: ['password', 'activationLink']
       },
       include: [
         {
           model: LawyerProfile,
-          attributes: ['id', 'userId'],
           required: false,
+          include: [
+            {
+              model: Specialization,
+              through: { attributes: [] },
+              attributes: ['id', 'name']
+            },
+            {
+              model: Review,
+              required: false,
+              as: 'reviews',
+              include: [
+                {
+                  model: User,
+                  required: true,
+                  as: 'client',
+                  attributes: ['id', 'firstName', 'lastName', 'patronymic', 'avatarPath'],
+                }
+              ]
+            }
+          ]
         }
       ]
     });
