@@ -5,11 +5,12 @@ import axios from 'axios';
 
 
 class PaymentService {
-  async createPayment(userId, lawyerId) {
+  async createPayment(userId, lawyerId, redurectUrl) {
     const amount = process.env.CONTACT_PPRICE;
     const user = await User.findByPk(userId);
     const lawyer = await User.findByPk(lawyerId, { incluse: [{ model: LawyerProfile, required: true }] });
     const description = `Доступ к чату с юристом: ${lawyer.firstName}`.substring(0, 128);
+    const returnUrl = redurectUrl || process.env.CLIENT_URL;
     if (!user) {
       throw ApiError.NotFound('User not found');
     }
@@ -39,7 +40,7 @@ class PaymentService {
           capture: true,
           confirmation: {
             type: 'redirect',
-            return_url: process.env.CLIENT_URL,
+            return_url: returnUrl,
           },
           description: description
         },
@@ -53,7 +54,7 @@ class PaymentService {
       );
       payment.kassaId = response.data.id;
       payment.paymentUrl = response.data.confirmation.confirmation_url;
-      await payment.save({transaction});
+      await payment.save({ transaction });
 
       await transaction.commit();
       return payment;
@@ -61,6 +62,24 @@ class PaymentService {
       console.log(error)
       await transaction.rollback();
     }
+  }
+
+  async confirmPayment(kassaId) {
+    const payment = await Payment.findOne({ where: { kassaId } });
+    if (!payment) {
+      throw ApiError.NotFound();
+    }
+    payment.status = 'succeeded';
+    await payment.save();
+  }
+
+  async confirmPayment(kassaId) {
+    const payment = await Payment.findOne({ where: { kassaId } });
+    if (!payment) {
+      throw ApiError.NotFound();
+    }
+    payment.status = 'canceled';
+    await payment.save();
   }
 }
 
