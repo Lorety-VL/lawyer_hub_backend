@@ -1,10 +1,11 @@
-import db, { User, LawyerProfile } from '../models/index.js';
+import db, { User, LawyerProfile, Specialization } from '../models/index.js';
 import { hash, compare } from 'bcrypt';
 import { v4 } from 'uuid';
 import mailService from './mailService.js';
 import tokenService from './tokenService.js';
 import UserDto from '../dtos/UserDto.js';
 import ApiError from '../exceptions/apiError.js';
+import { Op } from 'sequelize';
 
 
 class AuthService {
@@ -25,7 +26,6 @@ class AuthService {
     if (process.env.MODE === 'production') {
       await mailService.sendActivationMail(userData.email, `${process.env.API_URL}/api/v1/auth/activate/${activationLink}`);
     }
-
     const userDto = new UserDto(user);
     const tokens = tokenService.generateTokens({ ...userDto });
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
@@ -57,10 +57,23 @@ class AuthService {
         password: hashPassword,
       }, { transaction });
 
-      await LawyerProfile.create({
+      const lawyerProfile = await LawyerProfile.create({
         ...lawyerData,
         userId: user.id,
       }, { transaction })
+
+      if (lawyerData.specializations) {
+        const specializationsDb = await Specialization.findAll({
+          where: {
+            name: {
+              [Op.in]: lawyerData.specializations
+            }
+          },
+          transaction,
+        });
+        await lawyerProfile.addSpecializations(specializationsDb, { transaction });
+      }
+      await lawyerProfile.save({transaction});
 
       if (process.env.MODE === 'production') {
         await mailService.sendActivationMail(userData.email, `${process.env.API_URL}/api/v1/auth/activate/${activationLink}`);
@@ -75,7 +88,6 @@ class AuthService {
       await transaction.rollback();
       throw err;
     }
-
   }
 
   async activate(activationLink) {

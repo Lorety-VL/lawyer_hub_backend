@@ -21,9 +21,7 @@ class LawyerController {
       const result = await lawyerService.getAll({
         page: parseInt(page),
         limit: parseInt(limit),
-        specializations: Array.isArray(specializations)
-          ? specializations
-          : specializations ? [specializations] : undefined,
+        specializations: specializations ? specializations.split(',') : null,
         ...otherFilters
       });
 

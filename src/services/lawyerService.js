@@ -14,7 +14,7 @@ class LawyerService {
 
     const where = {
       role: 'lawyer',
-      isBlocked: false
+      isBlocked: false,
     };
 
     if (otherFilters.name) {
@@ -46,6 +46,29 @@ class LawyerService {
         }
       ]
     }];
+
+    console.log(otherFilters)
+
+    if (otherFilters.ratingFrom > 0 || otherFilters.ratingTo < 5) {
+      include[0].where.rating = {};
+
+      if (otherFilters.ratingFrom) {
+        include[0].where.rating[Op.gte] = otherFilters.ratingFrom;
+      }
+
+      if (otherFilters.ratingTo) {
+        include[0].where.rating[Op.lte] = otherFilters.ratingTo;
+      }
+    }
+
+    if (specializations) {
+      include[0].include[0].where = {
+        name: {
+          [Op.in]: specializations
+        }
+      }
+      include[0].include[0].required = true;
+    }
 
     if (otherFilters.priceFrom || otherFilters.priceTo) {
       include[0].where.price = {

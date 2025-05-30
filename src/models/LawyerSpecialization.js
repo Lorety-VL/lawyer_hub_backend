@@ -9,7 +9,7 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.BIGINT,
       allowNull: false
     },
-    categoryId: {
+    specializationId: {
       type: DataTypes.INTEGER,
       allowNull: false
     }

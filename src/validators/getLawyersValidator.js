@@ -12,12 +12,8 @@ export const getLawyersValidator = [
 
   query('specializations')
     .optional()
-    .isArray()
-    .withMessage('Специализации должны быть массивом'),
-
-  query('specializations.*')
     .isString()
-    .withMessage('Каждая специализация должна быть строкой'),
+    .withMessage('Специализации должны быть строкой'),
 
   query('priceFrom')
     .optional()

@@ -24,7 +24,6 @@ class ReviewService {
     const sum = reviews.reduce((acc, el) => acc + el.rating, 0);
     const rating = sum / reviews.length;
     lawyerProfile.rating = rating.toFixed(1);
-    console.log(rating.toFixed(1))
     await lawyerProfile.save();
 
     return review;
