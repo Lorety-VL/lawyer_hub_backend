@@ -9,6 +9,7 @@ import lawyerRouter from './src/routers/lawyerRouter.js';
 import specializationRouter from './src/routers/specializationRouter.js';
 import paymentRouter from './src/routers/paymentRouter.js';
 import chatRouter from './src/routers/chatRouter.js';
+import auditMiddleware from './src/middlewares/auditMiddleware.js';
 
 
 const port = 3000;
@@ -17,6 +18,8 @@ const app = Express();
 app.use(Express.json());
 app.use(cookieParser())
 app.use(cors());
+
+app.use(auditMiddleware);
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
