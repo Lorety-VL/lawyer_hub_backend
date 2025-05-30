@@ -53,13 +53,15 @@ class ChatService {
             userId: [user1Id, user2Id]
           }
         },
-        attributes: [],
         required: true
       }],
     });
-    console.log(chats)
+    const filteredChats = chats.filter((el) => {
+      const users = el.Users.filter((user) => user.id != user1Id);
+      return users === 1;
+    })
 
-    return chats[0] || null;
+    return filteredChats[0] || null;
   }
 
   async getUserDialogs(userId) {
