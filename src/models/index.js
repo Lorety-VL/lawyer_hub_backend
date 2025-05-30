@@ -7,9 +7,9 @@ import LawyerModel from './LawyerProfile.js';
 import SpecializationModel from './Specialization.js';
 import LawyerSpecializationModel from './LawyerSpecialization.js';
 // import FileModel from './File.js';
-// import ChatModel from './Chat.js';
-// import MessageModel from './Message.js';
-// import ChatUserModel from './ChatUser.js';
+import ChatModel from './Chat.js';
+import MessageModel from './Message.js';
+import ChatUserModel from './ChatUser.js';
 import ReviewModel from './Review.js';
 import PaymentModel from './Payment.js';
 
@@ -29,9 +29,9 @@ const Token = TokenModel(db, DataTypes);
 const Specialization = SpecializationModel(db, DataTypes);
 const LawyerSpecialization = LawyerSpecializationModel(db, DataTypes);
 // const File = FileModel(db, DataTypes);
-// const Chat = ChatModel(db, DataTypes);
-// const Message = MessageModel(db, DataTypes);
-// const ChatUser = ChatUserModel(db, DataTypes);
+const Chat = ChatModel(db, DataTypes);
+const Message = MessageModel(db, DataTypes);
+const ChatUser = ChatUserModel(db, DataTypes);
 const Review = ReviewModel(db, DataTypes);
 const Payment = PaymentModel(db, DataTypes);
 
@@ -64,28 +64,28 @@ Specialization.belongsToMany(LawyerProfile, {
 // LawyerProfile.hasMany(File, { foreignKey: 'LawyerProfileId', onDelete: 'CASCADE' });
 // File.belongsTo(LawyerProfile, { foreignKey: 'LawyerProfileId' });
 
-// Chat.hasMany(Message, { foreignKey: 'chatId' });
-// Message.belongsTo(Chat, { foreignKey: 'chatId' });
+Chat.hasMany(Message, { foreignKey: 'chatId' });
+Message.belongsTo(Chat, { foreignKey: 'chatId' });
 
-// Message.belongsTo(User, { foreignKey: 'senderId' });
-// User.hasMany(Message, { foreignKey: 'senderId' });
+Message.belongsTo(User, { foreignKey: 'senderId' });
+User.hasMany(Message, { foreignKey: 'senderId' });
 
-// User.belongsToMany(Chat, {
-//   through: ChatUser,
-//   foreignKey: 'userId',
-//   otherKey: 'chatId'
-// });
+User.belongsToMany(Chat, {
+  through: ChatUser,
+  foreignKey: 'userId',
+  otherKey: 'chatId'
+});
 
-// Chat.belongsToMany(User, {
-//   through: ChatUser,
-//   foreignKey: 'chatId',
-//   otherKey: 'userId'
-// });
+Chat.belongsToMany(User, {
+  through: ChatUser,
+  foreignKey: 'chatId',
+  otherKey: 'userId'
+});
 
-// Message.belongsTo(User, {
-//   foreignKey: 'senderId',
-//   as: 'sender'
-// });
+Message.belongsTo(User, {
+  foreignKey: 'senderId',
+  as: 'sender'
+});
 
 Payment.belongsTo(User, { foreignKey: 'userId' });
 Payment.belongsTo(User, { foreignKey: 'lawyerId' });
@@ -117,9 +117,9 @@ export {
   LawyerProfile,
   Specialization,
   // File,
-  // Chat,
-  // Message,
-  // ChatUser,
+  Chat,
+  Message,
+  ChatUser,
   Review,
   Payment
 };
