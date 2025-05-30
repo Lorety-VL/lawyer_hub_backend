@@ -19,19 +19,27 @@ class ChatService {
   }
 
   async getUserChats(userId) {
+    const userChats = await ChatUser.findAll({
+      where: { userId },
+      attributes: ['chatId']
+    });
+
+    const chatIds = userChats.map(c => c.chatId);
+
     return await Chat.findAll({
+      where: { id: chatIds },
       include: [
         {
           model: User,
-          through: {
-            where: { userId }
-          },
+          where: { id: { [Op.ne]: userId } },
+          attributes: ['id', 'firstName', 'lastName', 'role'],
           required: true
         },
         {
           model: Message,
-          required: false
-        },
+          order: [['createdAt', 'DESC']],
+          limit: 1,
+        }
       ]
     });
   }
