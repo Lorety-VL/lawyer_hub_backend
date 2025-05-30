@@ -11,6 +11,7 @@ import LawyerSpecializationModel from './LawyerSpecialization.js';
 // import MessageModel from './Message.js';
 // import ChatUserModel from './ChatUser.js';
 import ReviewModel from './Review.js';
+import PaymentModel from './Payment.js';
 
 
 const env = process.env.NODE_ENV || 'development';
@@ -32,6 +33,7 @@ const LawyerSpecialization = LawyerSpecializationModel(db, DataTypes);
 // const Message = MessageModel(db, DataTypes);
 // const ChatUser = ChatUserModel(db, DataTypes);
 const Review = ReviewModel(db, DataTypes);
+const Payment = PaymentModel(db, DataTypes);
 
 Token.belongsTo(User, {
   foreignKey: 'userId'
@@ -85,6 +87,10 @@ Specialization.belongsToMany(LawyerProfile, {
 //   as: 'sender'
 // });
 
+Payment.belongsTo(User, { foreignKey: 'userId' });
+Payment.belongsTo(User, { foreignKey: 'lawyerId' });
+// Payment.belongsTo(Chat, { foreignKey: 'chatId' });
+
 Review.belongsTo(User, {
   foreignKey: 'lawyerId',
   as: 'lawyer'
@@ -114,7 +120,8 @@ export {
   // Chat,
   // Message,
   // ChatUser,
-  Review
+  Review,
+  Payment
 };
 
 export default db;
