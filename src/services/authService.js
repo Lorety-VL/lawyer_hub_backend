@@ -1,4 +1,4 @@
-import db, { User, LawyerProfile, Specialization } from '../models/index.js';
+import db, { User, LawyerProfile, Specialization, ResetToken } from '../models/index.js';
 import { hash, compare } from 'bcrypt';
 import { v4 } from 'uuid';
 import mailService from './mailService.js';
@@ -6,6 +6,7 @@ import tokenService from './tokenService.js';
 import UserDto from '../dtos/UserDto.js';
 import ApiError from '../exceptions/apiError.js';
 import { Op } from 'sequelize';
+import jwt from 'jsonwebtoken';
 
 
 class AuthService {
@@ -73,7 +74,7 @@ class AuthService {
         });
         await lawyerProfile.addSpecializations(specializationsDb, { transaction });
       }
-      await lawyerProfile.save({transaction});
+      await lawyerProfile.save({ transaction });
 
       if (process.env.MODE === 'production') {
         await mailService.sendActivationMail(userData.email, `${process.env.API_URL}/api/v1/auth/activate/${activationLink}`);
@@ -137,9 +138,46 @@ class AuthService {
     return { ...tokens, user: userDto };
   }
 
-  async getAllUsers() {
-    const users = await User.findAll();
-    return users;
+  async forgotPassword(email) {
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      return res.status(200).json({ message: 'Если пользователь существует, письмо отправлено' });
+    }
+
+    const token = jwt.sign(
+      { userId: user.id },
+      process.env.JWT_ACCESS_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    await ResetToken.create({
+      userId: user.id,
+      token,
+      expiresAt: new Date(Date.now() + 3600000)
+    });
+
+    const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${token}`;
+    await mailService.sendPasswordResetEmail(user.email, resetLink);
+  }
+
+  async resetPassword(token, password) {
+    const resetToken = await ResetToken.findOne({
+      where: { token, used: false },
+      include: [User]
+    });
+
+    if (!resetToken || new Date() > resetToken.expiresAt) {
+      throw ApiError.BadRequest('Некорректная или просроченная ссылка');
+    }
+
+    jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+
+    const hashedPassword = await hash(password, 10);
+
+    await resetToken.User.update({ password: hashedPassword });
+
+    await resetToken.update({ used: true });
   }
 }
 

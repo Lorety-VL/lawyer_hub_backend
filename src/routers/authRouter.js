@@ -20,4 +20,7 @@ authRouter.post('/logout', authController.logout);
 authRouter.get('/activate/:link', authController.activate);
 authRouter.get('/refresh', authController.refresh);
 
+authRouter.post('/forgot-password', authController.forgotPassword);
+authRouter.post('/reset-password/:token', authController.resetPassword);
+
 export default authRouter;

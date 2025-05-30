@@ -19,6 +19,21 @@ class PaymentController {
     res.status(201).json(payment);
   }
 
+  async getPayments(req, res, next) {
+    const userId = req.user.id;
+    const { lawyerId } = req.query;
+
+    const isPaymentsExist = await paymentService.getPaymentForUsers(userId, lawyerId);
+    console.log(isPaymentsExist)
+    if (isPaymentsExist.length > 0) {
+      throw ApiError.Conflict('Payment between user and lawyer already exists');
+    }
+
+    const payment = await paymentService.createPayment(userId, lawyerId, redirectUrl);
+
+    res.status(201).json(payment);
+  }
+
   async webhook(req, res, next) {
     const { event, object } = req.body;
 

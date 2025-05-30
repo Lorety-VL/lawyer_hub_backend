@@ -2,6 +2,8 @@ import _ from 'lodash';
 import authService from '../services/authService.js';
 import { validationResult } from "express-validator";
 import ApiError from '../exceptions/apiError.js';
+import jwt from 'jsonwebtoken';
+
 
 class AuthController {
   async registerClient(req, res, next) {
@@ -99,6 +101,31 @@ class AuthController {
       const userData = await authService.refresh(refreshToken);
       res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
       return res.json(userData);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async forgotPassword(req, res, next) {
+    try {
+      const { email } = req.body;
+      
+      await authService.forgotPassword(email);
+
+      res.status(200).json({ message: 'Ссылка для сброса пароля отправлена на email' });
+    } catch (e) {
+      next(e)
+    }
+  }
+
+  async resetPassword(req, res, next) {
+    try {
+      const { token } = req.params;
+      const { password } = req.body;
+
+      await authService.resetPassword(token, password)
+
+      res.status(202).json({ message: 'Пароль успешно изменен' });
     } catch (e) {
       next(e);
     }
