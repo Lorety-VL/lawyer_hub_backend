@@ -73,13 +73,23 @@ class PaymentService {
     await payment.save();
   }
 
-  async confirmPayment(kassaId) {
+  async rejectPayment(kassaId) {
     const payment = await Payment.findOne({ where: { kassaId } });
     if (!payment) {
       throw ApiError.NotFound();
     }
     payment.status = 'canceled';
     await payment.save();
+  }
+
+  async getPaymentForUsers(userId, lawyerId) {
+    return await Payment.findAll({
+      where: {
+        userId,
+        lawyerId,
+        status: 'succeeded',
+      }
+    });
   }
 }
 

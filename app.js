@@ -30,10 +30,10 @@ app.use(errorMiddleware);
 // Выполнение подключения к базе данных
 try {
   await db.authenticate();
-  // await db.models.User.sync({ force: true })
-  // await db.models.LawyerProfile.sync({ force: true })
-  // await db.models.LawyerSpecialization.sync({ force: true })
-  await db.sync({ alter: true })
+  // await db.models.User.sync({ force: true });
+  // await db.models.LawyerProfile.sync({ force: true });
+  // await db.models.LawyerSpecialization.sync({ force: true });
+  await db.sync({ force: true })
   console.log('Подключение к БД - успех!');
 } catch (error) {
   console.error('Подключение к БД - пропало. Описание: \n', error);

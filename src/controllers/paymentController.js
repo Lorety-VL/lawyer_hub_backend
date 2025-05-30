@@ -8,6 +8,12 @@ class PaymentController {
     const userId = req.user.id;
     const { lawyerId, redirectUrl } = req.body;
 
+    const isPaymentsExist = await paymentService.getPaymentForUsers(userId, lawyerId);
+    console.log(isPaymentsExist)
+    if (isPaymentsExist.length > 0) {
+      throw ApiError.Conflict('Payment between user and lawyer already exists');
+    }
+
     const payment = await paymentService.createPayment(userId, lawyerId, redirectUrl);
 
     res.status(201).json(payment);
@@ -18,11 +24,13 @@ class PaymentController {
 
     if (event === 'payment.succeeded') {
       await paymentService.confirmPayment(object.id);
+      res.status(200).json({ ok: 'ok' });
     }
     if (event === 'payment.canceled') {
       await paymentService.rejectPayment(object.id);
+      res.status(200).json({ status: 'ok' });
     }
-    res.status(200).json({ ok: 'ok' });
+    res.status(500).json({ status: 'error'});
   }
 }
 
