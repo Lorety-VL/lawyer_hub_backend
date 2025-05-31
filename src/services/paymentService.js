@@ -59,7 +59,7 @@ class PaymentService {
       await transaction.commit();
       return payment;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       await transaction.rollback();
     }
   }

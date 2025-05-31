@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import userService from '../services/userService.js';
-import { validationResult } from "express-validator";
+import { validationResult } from 'express-validator';
 import ApiError from '../exceptions/apiError.js';
 
 
@@ -27,7 +27,7 @@ class UserController {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return next(ApiError.BadRequest('Validation error', errors.array()))
+        return next(ApiError.BadRequest('Validation error', errors.array()));
       }
       const { id } = req.params;
       const lawyer = await userService.getById(id);

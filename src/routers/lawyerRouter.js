@@ -13,7 +13,7 @@ lawyerRouter.post('/:lawyerId/reviews',
   authMiddleware,
   checkRoleMiddleware(['client']),
   reviewController.createReview
-)
+);
 
 // lawyerRouter.get('/:lawyerId/reviews',
 //   authMiddleware,

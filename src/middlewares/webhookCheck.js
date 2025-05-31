@@ -1,4 +1,4 @@
-import ipChecker from "../utils/ipChecker.js";
+import ipChecker from '../utils/ipChecker.js';
 
 
 export default (req, res, next) => {

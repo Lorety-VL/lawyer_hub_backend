@@ -1,5 +1,5 @@
-import ApiError from "../exceptions/apiError.js";
-import { User, LawyerProfile, Review } from "../models/index.js";
+import ApiError from '../exceptions/apiError.js';
+import { User, LawyerProfile, Review } from '../models/index.js';
 
 
 class ReviewService {

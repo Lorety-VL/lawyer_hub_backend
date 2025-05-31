@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { validationResult } from "express-validator";
+import { validationResult } from 'express-validator';
 import ApiError from '../exceptions/apiError.js';
 import lawyerService from '../services/lawyerService.js';
 
@@ -9,7 +9,7 @@ class LawyerController {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return next(ApiError.BadRequest('Validation error', errors.array()))
+        return next(ApiError.BadRequest('Validation error', errors.array()));
       }
       const {
         page = 1,

@@ -43,7 +43,7 @@ class AuthService {
       throw ApiError.Conflict(`Пользователь с почтовым адресом ${userData.email} уже существует`);
     }
     if (lawyerCandidate) {
-      throw ApiError.Conflict(`Пользователь с таким номером лицензии уже существует`);
+      throw ApiError.Conflict('Пользователь с таким номером лицензии уже существует');
     }
     const hashPassword = await hash(userData.password, 3);
     const activationLink = v4();
@@ -62,7 +62,7 @@ class AuthService {
         ...lawyerData,
         price: process.env.CONTACT_PPRICE,
         userId: user.id,
-      }, { transaction })
+      }, { transaction });
 
       if (lawyerData.specializations) {
         const specializationsDb = await Specialization.findAll({
@@ -95,7 +95,7 @@ class AuthService {
   async activate(activationLink) {
     const user = await User.findOne({ where: { activationLink } });
     if (!user) {
-      throw ApiError.BadRequest('Неккоректная ссылка активации')
+      throw ApiError.BadRequest('Неккоректная ссылка активации');
     }
     user.isActivated = true;
     await user.save();
