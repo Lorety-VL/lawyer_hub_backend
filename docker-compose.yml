@@ -21,6 +21,8 @@ services:
       YOOKASSA_ALLOWED_IPS: ${YOOKASSA_ALLOWED_IPS}
       CONTACT_PPRICE: ${CONTACT_PPRICE}
       MODE: ${MODE}
+    volumes:
+      - ./logs:/app/src/logs
     ports:
       - "3000:3000"
     depends_on:

@@ -2,7 +2,6 @@ import _ from 'lodash';
 import userService from '../services/userService.js';
 import { validationResult } from 'express-validator';
 import ApiError from '../exceptions/apiError.js';
-import { uploadAvatar, uploadDocuments } from '../utils/uploadFile.js';
 
 
 class UserController {
@@ -72,28 +71,6 @@ class UserController {
     try {
       await userService.deleteUser(req.user.id);
       res.status(200).json({ success: true });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async setAvatar(req, res, next) {
-    try {
-      uploadAvatar(req, res, async (err) => {
-        if (err) return next(ApiError.BadRequest(err.message));
-        console.log(req.user);
-        console.log(req.file);
-
-        try {
-          const avatarUrl = await userService.updateAvatar(
-            req.user.id,
-            req.file.path
-          );
-          res.status(201).json({ avatarUrl });
-        } catch (error) {
-          next(error);
-        }
-      });
     } catch (error) {
       next(error);
     }

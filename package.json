@@ -20,8 +20,10 @@
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-import": "^2.31.0",
     "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
     "express-validator": "^7.2.1",
     "globals": "^16.2.0",
+    "helmet": "^8.1.0",
     "ip-range-check": "^0.2.0",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
@@ -37,6 +39,9 @@
   "devDependencies": {
     "eslint": "^9.27.0",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20"
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "uuid": "^11.1.0",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
   }
 }

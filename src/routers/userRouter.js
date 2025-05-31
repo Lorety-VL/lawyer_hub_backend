@@ -35,8 +35,4 @@ userRouter.get('/:id', [
     .toInt()
 ], userController.getUser);
 
-userRouter.patch('/me/avatar',
-  authMiddleware,
-  userController.setAvatar
-);
 export default userRouter;
