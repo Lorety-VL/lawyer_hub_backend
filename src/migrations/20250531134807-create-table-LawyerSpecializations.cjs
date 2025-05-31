@@ -14,7 +14,8 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'LawyerProfiles',
-          key: 'id'
+          key: 'id',
+          onDelete: 'CASCADE'
         }
       },
       specializationId: {
@@ -22,7 +23,8 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'Specializations',
-          key: 'id'
+          key: 'id',
+          onDelete: 'CASCADE'
         }
       },
       createdAt: {
