@@ -13,9 +13,5 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       allowNull: false
     },
-    // isCreator: {
-    //   type: DataTypes.BOOLEAN,
-    //   defaultValue: false
-    // }
   });
 };

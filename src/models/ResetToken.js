@@ -26,12 +26,5 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     }
-  }, {
-    indexes: [
-      {
-        fields: ['token'],
-        unique: true
-      }
-    ]
   });
 };

@@ -11,5 +11,6 @@ RUN npm ci --production
 
 COPY . .
 
-CMD ["sh", "-c", "node app.js"]
-# CMD ["sh", "-c", "npx sequelize-cli db:seed:all --env production && node app.js"]
+# CMD ["sh", "-c", "node app.js"]
+CMD ["sh", "-c", "npx sequelize-cli db:migrate && node app.js"]
+# CMD ["sh", "-c", "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && node app.js"]
