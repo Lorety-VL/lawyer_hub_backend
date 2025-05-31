@@ -20,7 +20,7 @@ export default (req, res, next) => {
 
     req.user = userData;
     next();
-  } catch (e) {
+  } catch {
     return next(ApiError.UnauthorizedError());
   }
 };

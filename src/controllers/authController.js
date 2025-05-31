@@ -2,7 +2,6 @@ import _ from 'lodash';
 import authService from '../services/authService.js';
 import { validationResult } from 'express-validator';
 import ApiError from '../exceptions/apiError.js';
-import jwt from 'jsonwebtoken';
 
 
 class AuthController {
@@ -114,7 +113,7 @@ class AuthController {
 
       res.status(200).json({ message: 'Ссылка для сброса пароля отправлена на email' });
     } catch (e) {
-      next(e)
+      next(e);
     }
   }
 
@@ -123,7 +122,7 @@ class AuthController {
       const { token } = req.params;
       const { password } = req.body;
 
-      await authService.resetPassword(token, password)
+      await authService.resetPassword(token, password);
 
       res.status(202).json({ message: 'Пароль успешно изменен' });
     } catch (e) {

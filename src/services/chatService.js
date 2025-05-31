@@ -59,7 +59,7 @@ class ChatService {
     const filteredChats = chats.filter((el) => {
       const users = el.Users.filter((user) => user.id != user1Id);
       return users === 1;
-    })
+    });
 
     return filteredChats[0] || null;
   }
@@ -107,7 +107,7 @@ class ChatService {
   async getMessages(chatId, lastMessageId = null) {
     const where = { chatId };
     if (lastMessageId) {
-      where.id = { [Op.gt]: lastMessageId }
+      where.id = { [Op.gt]: lastMessageId };
     }
 
     return await Message.findAll({

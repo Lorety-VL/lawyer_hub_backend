@@ -1,5 +1,5 @@
 import chatService from '../services/chatService.js';
-import ApiError from '../exceptions/apiError.js';
+
 
 class ChatController {
   async createChat(req, res, next) {

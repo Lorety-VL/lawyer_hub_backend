@@ -1,6 +1,5 @@
-import db, { User, LawyerProfile, Specialization, Payment } from '../models/index.js';
+import db, { User, LawyerProfile, Payment } from '../models/index.js';
 import ApiError from '../exceptions/apiError.js';
-import { Op } from 'sequelize';
 import axios from 'axios';
 
 

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { validationResult } from 'express-validator';
 import ApiError from '../exceptions/apiError.js';
 import lawyerService from '../services/lawyerService.js';

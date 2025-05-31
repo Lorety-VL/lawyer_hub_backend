@@ -45,8 +45,8 @@ app.post('/webhook', webhookCors, webhookCheck, paymentController.webhook);
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "trusted-cdn.com"],
+      defaultSrc: ['\'self\''],
+      scriptSrc: ['\'self\'', '\'unsafe-inline\'', 'trusted-cdn.com'],
     },
   },
   hsts: { maxAge: 31536000, includeSubDomains: true },

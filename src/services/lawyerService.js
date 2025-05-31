@@ -1,5 +1,4 @@
 import { Op } from 'sequelize';
-import ApiError from '../exceptions/apiError.js';
 import { User, LawyerProfile, Specialization } from '../models/index.js';
 
 

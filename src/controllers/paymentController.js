@@ -1,6 +1,4 @@
-import _ from 'lodash';
 import paymentService from '../services/paymentService.js';
-import ApiError from '../exceptions/apiError.js';
 
 
 class PaymentController {
@@ -9,29 +7,10 @@ class PaymentController {
       const userId = req.user.id;
       const { lawyerId, redirectUrl } = req.body;
 
-      const isPaymentsExist = await paymentService.getPaymentForUsers(userId, lawyerId);
-      if (isPaymentsExist.length > 0) {
-        throw ApiError.Conflict('Payment between user and lawyer already exists');
-      }
-
-      const payment = await paymentService.createPayment(userId, lawyerId, redirectUrl);
-
-      res.status(201).json(payment);
-    } catch (e) {
-      next(e);
-    }
-  }
-
-  async getPayments(req, res, next) {
-    try {
-      const userId = req.user.id;
-      const { lawyerId } = req.query;
-
-      const isPaymentsExist = await paymentService.getPaymentForUsers(userId, lawyerId);
-      console.log(isPaymentsExist)
-      if (isPaymentsExist.length > 0) {
-        throw ApiError.Conflict('Payment between user and lawyer already exists');
-      }
+      // const isPaymentsExist = await paymentService.getPaymentForUsers(userId, lawyerId);
+      // if (isPaymentsExist.length > 0) {
+      //   throw ApiError.Conflict('Payment between user and lawyer already exists');
+      // }
 
       const payment = await paymentService.createPayment(userId, lawyerId, redirectUrl);
 
