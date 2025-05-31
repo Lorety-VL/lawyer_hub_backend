@@ -67,6 +67,7 @@ app.use(errorMiddleware);
 // Выполнение подключения к базе данных
 try {
   await db.authenticate();
+  db.sync({ alter: true })
   console.log('Подключение к БД - успех!');
 } catch (error) {
   console.error('Подключение к БД - пропало. Описание: \n', error);
