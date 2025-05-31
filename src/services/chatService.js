@@ -58,7 +58,7 @@ class ChatService {
     });
     const filteredChats = chats.filter((el) => {
       const users = el.Users.filter((user) => user.id != user1Id);
-      return users === 1;
+      return users.length === 1;
     });
 
     return filteredChats[0] || null;
