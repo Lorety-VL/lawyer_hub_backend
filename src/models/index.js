@@ -98,7 +98,7 @@ Review.belongsTo(User, {
 });
 
 LawyerProfile.hasMany(Review, {
-  foreignKey: 'lawyerProfileId',
+  foreignKey: 'lawyerId',
   as: 'reviews'
 });
 
