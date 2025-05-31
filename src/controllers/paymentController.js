@@ -4,12 +4,12 @@ import ApiError from '../exceptions/apiError.js';
 
 
 class PaymentController {
-  async createPayment(req, res, next) {
+  async createPayment(req, res) {
     const userId = req.user.id;
     const { lawyerId, redirectUrl } = req.body;
 
     const isPaymentsExist = await paymentService.getPaymentForUsers(userId, lawyerId);
-    console.log(isPaymentsExist)
+    console.log(isPaymentsExist);
     if (isPaymentsExist.length > 0) {
       throw ApiError.Conflict('Payment between user and lawyer already exists');
     }
@@ -19,7 +19,7 @@ class PaymentController {
     res.status(201).json(payment);
   }
 
-  async webhook(req, res, next) {
+  async webhook(req, res) {
     const { event, object } = req.body;
 
     if (event === 'payment.succeeded') {

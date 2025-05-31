@@ -1,6 +1,6 @@
-import { Op } from "sequelize";
-import ApiError from "../exceptions/apiError.js";
-import { User, LawyerProfile, Specialization } from "../models/index.js";
+import { Op } from 'sequelize';
+import ApiError from '../exceptions/apiError.js';
+import { User, LawyerProfile, Specialization } from '../models/index.js';
 
 
 class LawyerService {
@@ -47,7 +47,7 @@ class LawyerService {
       ]
     }];
 
-    console.log(otherFilters)
+    console.log(otherFilters);
 
     if (otherFilters.ratingFrom > 0 || otherFilters.ratingTo < 5) {
       include[0].where.rating = {};
@@ -66,7 +66,7 @@ class LawyerService {
         name: {
           [Op.in]: specializations
         }
-      }
+      };
       include[0].include[0].required = true;
     }
 

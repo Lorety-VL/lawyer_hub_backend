@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import authService from '../services/authService.js';
-import { validationResult } from "express-validator";
+import { validationResult } from 'express-validator';
 import ApiError from '../exceptions/apiError.js';
 
 class AuthController {
@@ -32,7 +32,7 @@ class AuthController {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return next(ApiError.BadRequest('Validation error', errors.array()))
+        return next(ApiError.BadRequest('Validation error', errors.array()));
       }
       const userData = _.pick(req.body, [
         'email',
@@ -65,7 +65,7 @@ class AuthController {
     try {
       const { email, password } = req.body;
       const userData = await authService.login(email, password);
-      res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+      res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
       return res.json(userData);
     } catch (e) {
       next(e);

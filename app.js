@@ -15,7 +15,7 @@ const port = 3000;
 const app = Express();
 
 app.use(Express.json());
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(cors());
 
 app.use('/api/v1/auth', authRouter);
@@ -33,7 +33,7 @@ try {
   // await db.models.User.sync({ force: true });
   // await db.models.LawyerProfile.sync({ force: true });
   // await db.models.LawyerSpecialization.sync({ force: true });
-  await db.sync({ force: true })
+  await db.sync({ force: true });
   console.log('Подключение к БД - успех!');
 } catch (error) {
   console.error('Подключение к БД - пропало. Описание: \n', error);

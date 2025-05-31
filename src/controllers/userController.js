@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import userService from '../services/userService.js';
-import { validationResult } from "express-validator";
+import { validationResult } from 'express-validator';
 import ApiError from '../exceptions/apiError.js';
 import { uploadAvatar, uploadDocuments } from '../utils/uploadFile.js';
 
@@ -28,7 +28,7 @@ class UserController {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return next(ApiError.BadRequest('Validation error', errors.array()))
+        return next(ApiError.BadRequest('Validation error', errors.array()));
       }
       const { id } = req.params;
       const lawyer = await userService.getById(id);
@@ -81,8 +81,8 @@ class UserController {
     try {
       uploadAvatar(req, res, async (err) => {
         if (err) return next(ApiError.BadRequest(err.message));
-        console.log(req.user)
-        console.log(req.file)
+        console.log(req.user);
+        console.log(req.file);
 
         try {
           const avatarUrl = await userService.updateAvatar(

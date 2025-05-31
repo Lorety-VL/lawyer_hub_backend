@@ -5,17 +5,23 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.33.0",
+    "@typescript-eslint/parser": "^8.33.0",
     "axios": "^1.9.0",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-import": "^2.31.0",
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
+    "globals": "^16.2.0",
     "ip-range-check": "^0.2.0",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
@@ -27,5 +33,10 @@
     "sequelize": "^6.37.7",
     "sequelize-cli": "^6.6.3",
     "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.27.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20"
   }
 }

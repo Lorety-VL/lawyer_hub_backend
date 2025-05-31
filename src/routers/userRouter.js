@@ -11,22 +11,22 @@ userRouter.get('/',
   authMiddleware,
   checkRoleMiddleware(['moderator', 'admin']),
   userController.getUsers
-)
+);
 
 userRouter.get('/me',
   authMiddleware,
   userController.getMe
-)
+);
 
 userRouter.patch('/me',
   authMiddleware,
   userController.updateMe
-)
+);
 
 userRouter.delete('/me',
   authMiddleware,
   userController.deleteMe
-)
+);
 
 userRouter.get('/:id', [
   param('id')
@@ -38,5 +38,5 @@ userRouter.get('/:id', [
 userRouter.patch('/me/avatar',
   authMiddleware,
   userController.setAvatar
-)
+);
 export default userRouter;

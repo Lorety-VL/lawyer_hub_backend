@@ -1,4 +1,4 @@
-import { Specialization } from "../models/index.js";
+import { Specialization } from '../models/index.js';
 
 
 class SpecializationService {

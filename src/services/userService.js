@@ -1,5 +1,5 @@
-import ApiError from "../exceptions/apiError.js";
-import { User, LawyerProfile, Specialization, Review } from "../models/index.js";
+import ApiError from '../exceptions/apiError.js';
+import { User, LawyerProfile, Specialization, Review } from '../models/index.js';
 
 
 class UserService {
@@ -133,7 +133,7 @@ class UserService {
           include: [{ model: Specialization, exclude: [] }]
         },
       ]
-    })
+    });
   }
 
   async deleteUser(userId) {
