@@ -47,13 +47,13 @@ class PaymentController {
 
       if (event === 'payment.succeeded') {
         await paymentService.confirmPayment(object.id);
-        res.status(200).json({ ok: 'ok' });
+        return res.status(200).json({ ok: 'ok' });
       }
       if (event === 'payment.canceled') {
         await paymentService.rejectPayment(object.id);
-        res.status(200).json({ status: 'ok' });
+        return res.status(200).json({ status: 'ok' });
       }
-      res.status(500).json({ status: 'error' });
+      res.status(200).json({ status: 'error' });
     } catch (e) {
       next(e);
     }

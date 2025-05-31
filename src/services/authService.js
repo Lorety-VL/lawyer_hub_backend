@@ -60,6 +60,7 @@ class AuthService {
 
       const lawyerProfile = await LawyerProfile.create({
         ...lawyerData,
+        price: process.env.CONTACT_PPRICE,
         userId: user.id,
       }, { transaction })
 
