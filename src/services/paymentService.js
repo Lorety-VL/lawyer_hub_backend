@@ -82,7 +82,7 @@ class PaymentService {
   }
 
   async getPaymentForUsers(userId, lawyerId) {
-    return await Payment.findAll({
+    return await Payment.findOne({
       where: {
         userId,
         lawyerId,

@@ -15,7 +15,7 @@ class AuthService {
     if (candidate) {
       throw ApiError.Conflict(`Пользователь с почтовым адресом ${userData.email} уже существует`);
     }
-    const hashPassword = await hash(userData.password, 3);
+    const hashPassword = await hash(userData.password, 10);
     const activationLink = v4();
 
     const user = await User.create({

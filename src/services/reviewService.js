@@ -5,7 +5,7 @@ import { User, LawyerProfile, Review } from '../models/index.js';
 class ReviewService {
   async createReview(userId, lawyerId, reviewData) {
     const user = await User.findByPk(userId);
-    const lawyerProfile = await LawyerProfile.findOne({ where: { id: lawyerId } });
+    const lawyerProfile = await LawyerProfile.findOne({ where: { userId: lawyerId } });
 
     if (!user) {
       throw ApiError.NotFound();
@@ -15,7 +15,7 @@ class ReviewService {
     }
 
     const review = await Review.create({
-      lawyerId,
+      lawyerId: lawyerProfile.id,
       clientId: userId,
       ...reviewData,
     });

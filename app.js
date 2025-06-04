@@ -17,8 +17,8 @@ import rateLimit from 'express-rate-limit';
 
 
 const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
+  windowMs: 5 * 60 * 1000,
+  max: 300,
   message: 'Too many requests, please try later.',
 });
 
@@ -27,7 +27,6 @@ const app = Express();
 
 const apiCors = cors({
   origin: process.env.CLIENT_URL,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
 });
 
@@ -38,7 +37,11 @@ const webhookCors = cors({
 
 app.use('/api/v1', apiLimiter);
 app.use(Express.json());
-app.use(cookieParser());
+app.use(cookieParser({
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+}));
 app.set('trust proxy', 1);
 app.use('/api/v1', apiCors);
 app.post('/webhook', webhookCors, webhookCheck, paymentController.webhook);
@@ -46,7 +49,7 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ['\'self\''],
-      scriptSrc: ['\'self\'', '\'unsafe-inline\'', 'trusted-cdn.com'],
+      scriptSrc: ['\'self\'', '\'unsafe-inline\''],
     },
   },
   hsts: { maxAge: 31536000, includeSubDomains: true },

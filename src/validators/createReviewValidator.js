@@ -4,13 +4,15 @@ export const createReviewValidator = [
   param('lawyerId')
     .notEmpty()
     .withMessage('id юриста обязателен')
+    .isInt({ min: 1 })
+    .withMessage('ID юриста должен быть целым числом')
     .toInt(),
 
   body('rating')
     .notEmpty()
-    .isInt({ min: 1, max: 5 })
+    .isFloat({ min: 1, max: 5 })
     .withMessage('Оценка должна быть от 1 до 5')
-    .toInt(),
+    .toFloat(),
 
   body('text')
     .optional()
